@@ -61,10 +61,40 @@ public class DriverRegLoginActivity extends AppCompatActivity {
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = emailET.getText().toString();
-                String password = passET.getText().toString();
+                String email = emailET.getText().toString().trim();
+                String password = passET.getText().toString().trim();
 
                 RegisterDriver(email, password);
+            }
+        });
+
+        enterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email = emailET.getText().toString().trim();
+                String password = passET.getText().toString().trim();
+
+                Enterdriver(email, password);
+            }
+        });
+    }
+
+    private void Enterdriver(String email, String password) {
+        loadingDialog.setTitle("Вход водителя");
+        loadingDialog.setMessage("Пожалуйста, дождитесь загрузки!");
+        loadingDialog.show();
+
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()) {
+                    Toast.makeText(DriverRegLoginActivity.this, "Вход прошел успешно!", Toast.LENGTH_SHORT).show();
+                    loadingDialog.dismiss();
+                }
+                else {
+                    Toast.makeText(DriverRegLoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    loadingDialog.dismiss();
+                }
             }
         });
     }
@@ -82,7 +112,7 @@ public class DriverRegLoginActivity extends AppCompatActivity {
                     loadingDialog.dismiss();
                 }
                 else {
-                    Toast.makeText(DriverRegLoginActivity.this, "Ошибка при попытке регистрации!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DriverRegLoginActivity.this,  task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();
                 }
             }
