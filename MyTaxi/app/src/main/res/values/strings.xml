@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MyTaxi</string>
+    <string name="imCustomerButton">Я клиент</string>
+    <string name="imDriverButton">Я водитель</string>
+    <string name="enterDriverTV">Вход для водителя</string>
+    <string name="questionTV">Еще нет аккаунта?</string>
+    <string name="enterForCustomerTV">Вход для клиента</string>
 </resources>
