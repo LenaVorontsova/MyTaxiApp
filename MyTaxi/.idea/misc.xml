@@ -8,11 +8,12 @@
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/layout/activity_customer_reg_login.xml" value="0.22192028985507245" />
         <entry key="app/src/main/res/layout/activity_driver_reg_login.xml" value="0.42911575505705407" />
+        <entry key="app/src/main/res/layout/activity_drivers_map.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.15070921985815602" />
         <entry key="app/src/main/res/layout/activity_sign_in_and_up.xml" value="0.22192028985507245" />
         <entry key="app/src/main/res/layout/activity_sign_in_and_up_customer.xml" value="0.22192028985507245" />
         <entry key="app/src/main/res/layout/activity_sign_in_and_up_driver.xml" value="0.22192028985507245" />
-        <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.7389705882352942" />
+        <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.19591552742321222" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.17135416666666667" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.17135416666666667" />
       </map>

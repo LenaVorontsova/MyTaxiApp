@@ -4,11 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -74,12 +74,12 @@ public class DriverRegLoginActivity extends AppCompatActivity {
                 String email = emailET.getText().toString().trim();
                 String password = passET.getText().toString().trim();
 
-                Enterdriver(email, password);
+                EnterDriver(email, password);
             }
         });
     }
 
-    private void Enterdriver(String email, String password) {
+    private void EnterDriver(String email, String password) {
         loadingDialog.setTitle("Вход водителя");
         loadingDialog.setMessage("Пожалуйста, дождитесь загрузки!");
         loadingDialog.show();
@@ -90,6 +90,13 @@ public class DriverRegLoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     Toast.makeText(DriverRegLoginActivity.this, "Вход прошел успешно!", Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();
+                    enterButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent driverIntent = new Intent(DriverRegLoginActivity.this, DriversMapActivity.class);
+                            startActivity(driverIntent);
+                        }
+                    });
                 }
                 else {
                     Toast.makeText(DriverRegLoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -110,6 +117,13 @@ public class DriverRegLoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     Toast.makeText(DriverRegLoginActivity.this, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();
+                    regButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent driverIntent = new Intent(DriverRegLoginActivity.this, DriversMapActivity.class);
+                            startActivity(driverIntent);
+                        }
+                    });
                 }
                 else {
                     Toast.makeText(DriverRegLoginActivity.this,  task.getException().getMessage(), Toast.LENGTH_SHORT).show();

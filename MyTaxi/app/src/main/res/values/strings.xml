@@ -5,4 +5,5 @@
     <string name="enterDriverTV">Вход для водителя</string>
     <string name="questionTV">Еще нет аккаунта?</string>
     <string name="enterForCustomerTV">Вход для клиента</string>
+    <string name="title_activity_driver_map">DriverMapActivity</string>
 </resources>
