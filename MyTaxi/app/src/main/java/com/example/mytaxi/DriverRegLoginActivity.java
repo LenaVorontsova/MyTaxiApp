@@ -40,7 +40,6 @@ public class DriverRegLoginActivity extends AppCompatActivity {
         passET = (EditText) findViewById(R.id.driverPassword);
 
         mAuth = FirebaseAuth.getInstance();
-
         loadingDialog = new ProgressDialog(this);
 
         regButton.setVisibility(View.INVISIBLE);
@@ -90,13 +89,8 @@ public class DriverRegLoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     Toast.makeText(DriverRegLoginActivity.this, "Вход прошел успешно!", Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();
-                    enterButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent driverIntent = new Intent(DriverRegLoginActivity.this, DriversMapActivity.class);
-                            startActivity(driverIntent);
-                        }
-                    });
+                    Intent driverIntent = new Intent(DriverRegLoginActivity.this, DriversMapActivity.class);
+                    startActivity(driverIntent);
                 }
                 else {
                     Toast.makeText(DriverRegLoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -117,13 +111,8 @@ public class DriverRegLoginActivity extends AppCompatActivity {
                 if(task.isSuccessful()) {
                     Toast.makeText(DriverRegLoginActivity.this, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
                     loadingDialog.dismiss();
-                    regButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent driverIntent = new Intent(DriverRegLoginActivity.this, DriversMapActivity.class);
-                            startActivity(driverIntent);
-                        }
-                    });
+                    Intent driverIntent = new Intent(DriverRegLoginActivity.this, DriversMapActivity.class);
+                    startActivity(driverIntent);
                 }
                 else {
                     Toast.makeText(DriverRegLoginActivity.this,  task.getException().getMessage(), Toast.LENGTH_SHORT).show();
