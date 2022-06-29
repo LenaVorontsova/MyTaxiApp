@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyTaxi">
         <activity
+            android:name=".DriversInfoActivity"
+            android:exported="false" />
+        <activity
             android:name=".CustomersMapActivity"
             android:exported="false" />
         <activity

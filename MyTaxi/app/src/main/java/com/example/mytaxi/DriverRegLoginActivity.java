@@ -24,7 +24,6 @@ public class DriverRegLoginActivity extends AppCompatActivity {
     EditText emailET, passET;
 
     FirebaseAuth mAuth;
-
     ProgressDialog loadingDialog;
 
     @Override
@@ -63,7 +62,7 @@ public class DriverRegLoginActivity extends AppCompatActivity {
                 String email = emailET.getText().toString().trim();
                 String password = passET.getText().toString().trim();
 
-                RegisterDriver(email, password);
+                registerDriver(email, password);
             }
         });
 
@@ -73,51 +72,66 @@ public class DriverRegLoginActivity extends AppCompatActivity {
                 String email = emailET.getText().toString().trim();
                 String password = passET.getText().toString().trim();
 
-                EnterDriver(email, password);
+                enterDriver(email, password);
             }
         });
     }
 
-    private void EnterDriver(String email, String password) {
+    private void enterDriver(String email, String password) {
         loadingDialog.setTitle("Вход водителя");
         loadingDialog.setMessage("Пожалуйста, дождитесь загрузки!");
         loadingDialog.show();
 
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
-                    Toast.makeText(DriverRegLoginActivity.this, "Вход прошел успешно!", Toast.LENGTH_SHORT).show();
-                    loadingDialog.dismiss();
-                    Intent driverIntent = new Intent(DriverRegLoginActivity.this, DriversMapActivity.class);
-                    startActivity(driverIntent);
-                }
-                else {
-                    Toast.makeText(DriverRegLoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    loadingDialog.dismiss();
-                }
+        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Toast.makeText(
+                        DriverRegLoginActivity.this,
+                        "Вход прошел успешно!",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                loadingDialog.dismiss();
+                Intent driverIntent = new Intent(
+                        DriverRegLoginActivity.this,
+                        DriversInfoActivity.class
+                );
+                startActivity(driverIntent);
+            }
+            else {
+                Toast.makeText(
+                        DriverRegLoginActivity.this,
+                        task.getException().getMessage(),
+                        Toast.LENGTH_SHORT)
+                        .show();
+                loadingDialog.dismiss();
             }
         });
     }
 
-    private void RegisterDriver(String email, String password) {
+    private void registerDriver(String email, String password) {
         loadingDialog.setTitle("Регистрация водителя");
         loadingDialog.setMessage("Пожалуйста, дождитесь загрузки!");
         loadingDialog.show();
 
-        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()) {
-                    Toast.makeText(DriverRegLoginActivity.this, "Регистрация прошла успешно!", Toast.LENGTH_SHORT).show();
-                    loadingDialog.dismiss();
-                    Intent driverIntent = new Intent(DriverRegLoginActivity.this, DriversMapActivity.class);
-                    startActivity(driverIntent);
-                }
-                else {
-                    Toast.makeText(DriverRegLoginActivity.this,  task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    loadingDialog.dismiss();
-                }
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+                Toast.makeText(
+                        DriverRegLoginActivity.this,
+                        "Регистрация прошла успешно!",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                loadingDialog.dismiss();
+                Intent driverIntent = new Intent(
+                        DriverRegLoginActivity.this,
+                        DriversInfoActivity.class);
+                startActivity(driverIntent);
+            }
+            else {
+                Toast.makeText(
+                        DriverRegLoginActivity.this,
+                        task.getException().getMessage(),
+                        Toast.LENGTH_SHORT)
+                        .show();
+                loadingDialog.dismiss();
             }
         });
     }
