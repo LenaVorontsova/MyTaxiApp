@@ -29,6 +29,7 @@
         android:layout_marginTop="20dp"
         android:hint="Фамилия"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:inputType="textPersonName"
         android:text="" />
 
@@ -42,6 +43,7 @@
         android:layout_marginTop="20dp"
         android:hint="Имя"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:inputType="textPersonName"
         android:text="" />
 
@@ -55,6 +57,7 @@
         android:layout_marginTop="20dp"
         android:hint="Отчество"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:inputType="textPersonName"
         android:text=""  />
 
@@ -64,10 +67,11 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/patrET"
+        android:layout_below="@+id/loginET"
         android:layout_marginTop="20dp"
         android:hint="Гос. номер"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:inputType="textPersonName"
         android:text=""  />
 
@@ -81,6 +85,7 @@
         android:layout_marginTop="20dp"
         android:hint="Марка автомобиля"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:inputType="textPersonName"
         android:text=""  />
 
@@ -94,6 +99,7 @@
         android:layout_marginTop="20dp"
         android:hint="Цвет автомобиля"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:inputType="textPersonName"
         android:text=""  />
 
@@ -107,6 +113,7 @@
         android:layout_marginTop="20dp"
         android:hint="Статус выполнения заказа"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:inputType="textPersonName"
         android:text=""  />
 
@@ -120,18 +127,45 @@
         android:layout_marginTop="20dp"
         android:hint="Текущее местоположение"
         android:textColorHint="@color/white"
+        android:textColor="@color/white"
         android:inputType="textPersonName"
         android:text=""  />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/saveInfoButton"
-        android:layout_width="200dp"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/currentLocationET"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="28dp"
         android:background="#A7F179"
         android:text="Сохранить"
         android:textAllCaps="false"
         android:textSize="20sp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/goToTheMapButton"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currentLocationET"
+        android:layout_marginTop="10dp"
+        android:background="#A7F179"
+        android:layout_marginLeft="230dp"
+        android:text="Перейти к карте"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/loginET"
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/patrET"
+        android:layout_marginTop="20dp"
+        android:hint="Login"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:inputType="textPersonName"
+        android:text="" />
 </RelativeLayout>
