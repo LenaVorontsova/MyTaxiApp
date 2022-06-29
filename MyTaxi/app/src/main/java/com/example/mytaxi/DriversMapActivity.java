@@ -1,44 +1,51 @@
 package com.example.mytaxi;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.normal.TedPermission;
 import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKit;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
+import com.yandex.mapkit.layers.ObjectEvent;
 import com.yandex.mapkit.location.FilteringMode;
 import com.yandex.mapkit.location.Location;
 import com.yandex.mapkit.location.LocationListener;
 import com.yandex.mapkit.location.LocationManager;
 import com.yandex.mapkit.location.LocationStatus;
 import com.yandex.mapkit.map.CameraPosition;
+import com.yandex.mapkit.map.CompositeIcon;
+import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.RotationType;
 import com.yandex.mapkit.mapview.MapView;
+import com.yandex.mapkit.user_location.UserLocationLayer;
+import com.yandex.mapkit.user_location.UserLocationObjectListener;
+import com.yandex.mapkit.user_location.UserLocationView;
+import com.yandex.runtime.image.ImageProvider;
 
-public class DriversMapActivity extends AppCompatActivity {
+import java.util.List;
+
+public class DriversMapActivity extends AppCompatActivity  {
 
     private MapView mapView;
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private static final double DESIRED_ACCURACY = 0;
-    private static final long MINIMAL_TIME = 1000;
-    private static final double MINIMAL_DISTANCE = 1;
-    private static final boolean USE_IN_BACKGROUND = false;
-    public static final int COMFORTABLE_ZOOM_LEVEL = 18;
-    private CoordinatorLayout rootCoordinatorLayout;
-    private LocationManager locationManager;
-    private LocationListener myLocationListener;
-    private Point myLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         MapKitFactory.setApiKey("a1b5d0b8-480b-419a-b732-d1f09def9c28");
-        MapKitFactory.initialize(this);
+        MapKitFactory.initialize(DriversMapActivity.this);
+        
         setContentView(R.layout.activity_drivers_map);
         mapView = (MapView)findViewById(R.id.mapview);
 
@@ -46,7 +53,26 @@ public class DriversMapActivity extends AppCompatActivity {
                 new CameraPosition(new Point(55.751574, 37.573856), 11.0f, 0.0f, 0.0f),
                 new Animation(Animation.Type.SMOOTH, 0),
                 null);
+
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                Toast.makeText(DriversMapActivity.this, "Доступ разрешен", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(DriversMapActivity.this, "Доступ запрещен\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
+            }
+        };
+        TedPermission.create()
+                .setPermissionListener(permissionlistener)
+                .setDeniedMessage("Чтобы использовать приложение, разрешите доступ к метоположению")
+                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .check();
     }
+
 
     @Override
     protected void onStop() {
@@ -61,4 +87,5 @@ public class DriversMapActivity extends AppCompatActivity {
         MapKitFactory.getInstance().onStart();
         mapView.onStart();
     }
+
 }
