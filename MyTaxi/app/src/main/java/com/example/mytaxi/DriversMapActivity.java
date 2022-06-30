@@ -1,28 +1,16 @@
 package com.example.mytaxi;
 
-import androidx.appcompat.app.AlertDialog;
+import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PointF;
+import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
-import android.Manifest;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.os.Bundle;
-import android.widget.Toast;
-
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.normal.TedPermission;
-import com.yandex.mapkit.Animation;
 import com.yandex.mapkit.MapKit;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.layers.ObjectEvent;
-import com.yandex.mapkit.location.FilteringMode;
-import com.yandex.mapkit.location.Location;
-import com.yandex.mapkit.location.LocationListener;
-import com.yandex.mapkit.location.LocationManager;
-import com.yandex.mapkit.location.LocationStatus;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.CompositeIcon;
 import com.yandex.mapkit.map.IconStyle;
@@ -33,46 +21,54 @@ import com.yandex.mapkit.user_location.UserLocationObjectListener;
 import com.yandex.mapkit.user_location.UserLocationView;
 import com.yandex.runtime.image.ImageProvider;
 
-import java.util.List;
+public class DriversMapActivity extends AppCompatActivity implements UserLocationObjectListener {
 
-public class DriversMapActivity extends AppCompatActivity  {
-
+    private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 1;
     private MapView mapView;
+    private UserLocationLayer userLocationLayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         MapKitFactory.setApiKey("a1b5d0b8-480b-419a-b732-d1f09def9c28");
         MapKitFactory.initialize(DriversMapActivity.this);
-        
         setContentView(R.layout.activity_drivers_map);
-        mapView = (MapView)findViewById(R.id.mapview);
-
-        mapView.getMap().move(
-                new CameraPosition(new Point(55.751574, 37.573856), 11.0f, 0.0f, 0.0f),
-                new Animation(Animation.Type.SMOOTH, 0),
-                null);
-
-        PermissionListener permissionlistener = new PermissionListener() {
-            @Override
-            public void onPermissionGranted() {
-                Toast.makeText(DriversMapActivity.this, "Доступ разрешен", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onPermissionDenied(List<String> deniedPermissions) {
-                Toast.makeText(DriversMapActivity.this, "Доступ запрещен\n" + deniedPermissions.toString(), Toast.LENGTH_SHORT).show();
-            }
-        };
-        TedPermission.create()
-                .setPermissionListener(permissionlistener)
-                .setDeniedMessage("Чтобы использовать приложение, разрешите доступ к метоположению")
-                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
-                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
-                .check();
+        super.onCreate(savedInstanceState);
+        initMap();
     }
 
+    private void initMap() {
+        mapView = (MapView) findViewById(R.id.mapview);
+
+        mapView.getMap().setRotateGesturesEnabled(false);
+        mapView.getMap().move(
+                new CameraPosition(
+                        new Point(56.852765, 53.206187),
+                        14,
+                        0,
+                        0
+                )
+        );
+
+        requestLocationPermission();
+
+        MapKit mapKit = MapKitFactory.getInstance();
+        mapKit.resetLocationManagerToDefault();
+        userLocationLayer = mapKit.createUserLocationLayer(mapView.getMapWindow());
+        userLocationLayer.setVisible(true);
+        userLocationLayer.setHeadingEnabled(true);
+
+        userLocationLayer.setObjectListener(this);
+    }
+
+    private void requestLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                "android.permission.ACCESS_FINE_LOCATION")
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{"android.permission.ACCESS_FINE_LOCATION"},
+                    PERMISSIONS_REQUEST_FINE_LOCATION);
+        }
+    }
 
     @Override
     protected void onStop() {
@@ -88,4 +84,48 @@ public class DriversMapActivity extends AppCompatActivity  {
         mapView.onStart();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onObjectAdded(UserLocationView userLocationView) {
+        userLocationLayer.setAnchor(
+                new PointF((float) (mapView.getWidth() * 0.5), (float) (mapView.getHeight() * 0.5)),
+                new PointF((float) (mapView.getWidth() * 0.5), (float) (mapView.getHeight() * 0.83)));
+
+        userLocationView.getArrow().setIcon(ImageProvider.fromResource(
+                this, R.drawable.user_arrow));
+
+        CompositeIcon pinIcon = userLocationView.getPin().useCompositeIcon();
+
+        pinIcon.setIcon(
+                "icon",
+                ImageProvider.fromResource(this, R.drawable.icon),
+                new IconStyle().setAnchor(new PointF(0f, 0f))
+                        .setRotationType(RotationType.ROTATE)
+                        .setZIndex(0f)
+                        .setScale(1f)
+        );
+
+        pinIcon.setIcon(
+                "pin",
+                ImageProvider.fromResource(this, R.drawable.search_result),
+                new IconStyle().setAnchor(new PointF(0.5f, 0.5f))
+                        .setRotationType(RotationType.ROTATE)
+                        .setZIndex(1f)
+                        .setScale(0.5f)
+        );
+
+        userLocationView.getAccuracyCircle().setFillColor(Color.BLUE & 0x99ffffff);
+    }
+
+    @Override
+    public void onObjectRemoved(UserLocationView view) {
+    }
+
+    @Override
+    public void onObjectUpdated(UserLocationView view, ObjectEvent event) {
+    }
 }

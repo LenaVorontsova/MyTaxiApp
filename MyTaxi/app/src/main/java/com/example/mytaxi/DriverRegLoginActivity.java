@@ -1,8 +1,5 @@
 package com.example.mytaxi;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,10 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
+import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class DriverRegLoginActivity extends AppCompatActivity {
@@ -37,6 +31,8 @@ public class DriverRegLoginActivity extends AppCompatActivity {
         regButton = (Button)findViewById(R.id.signUpDriverButton);
         emailET = (EditText) findViewById(R.id.driverEmail);
         passET = (EditText) findViewById(R.id.driverPassword);
+        emailET.setText("lena@gmail.com");
+        passET.setText("123456_");
 
         mAuth = FirebaseAuth.getInstance();
         loadingDialog = new ProgressDialog(this);
@@ -56,24 +52,18 @@ public class DriverRegLoginActivity extends AppCompatActivity {
             }
         });
 
-        regButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = emailET.getText().toString().trim();
-                String password = passET.getText().toString().trim();
+        regButton.setOnClickListener(view -> {
+            String email = emailET.getText().toString().trim();
+            String password = passET.getText().toString().trim();
 
-                registerDriver(email, password);
-            }
+            registerDriver(email, password);
         });
 
-        enterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String email = emailET.getText().toString().trim();
-                String password = passET.getText().toString().trim();
+        enterButton.setOnClickListener(view -> {
+            String email = emailET.getText().toString().trim();
+            String password = passET.getText().toString().trim();
 
-                enterDriver(email, password);
-            }
+            enterDriver(email, password);
         });
     }
 
