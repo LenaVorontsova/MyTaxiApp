@@ -116,26 +116,50 @@
         android:textColor="@color/white"
         android:inputType="textPersonName"
         android:text=""  />
+    <TextView
+        android:id="@+id/locationText"
+        android:layout_width="350dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:layout_below="@id/statusET"
+        android:text="Введите текущее местоположение (00.00000)"
+        />
 
     <EditText
-        android:id="@+id/currentLocationET"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
+        android:id="@+id/currentLocationLatitudeET"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/locationText"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
         android:ems="10"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/statusET"
-        android:layout_marginTop="20dp"
-        android:hint="Текущее местоположение"
-        android:textColorHint="@color/white"
-        android:textColor="@color/white"
+        android:hint="Широта"
         android:inputType="textPersonName"
-        android:text=""  />
+        android:text=""
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
+
+    <EditText
+        android:id="@+id/currentLocationLongitudeET"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/locationText"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="230dp"
+        android:ems="10"
+        android:hint="Долгота"
+        android:inputType="textPersonName"
+        android:text=""
+        android:textColor="@color/white"
+        android:textColorHint="@color/white" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/saveInfoButton"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/currentLocationET"
+        android:layout_below="@id/currentLocationLatitudeET"
         android:layout_marginTop="10dp"
         android:layout_marginLeft="28dp"
         android:background="#A7F179"
@@ -147,7 +171,7 @@
         android:id="@+id/goToTheMapButton"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/currentLocationET"
+        android:layout_below="@id/currentLocationLatitudeET"
         android:layout_marginTop="10dp"
         android:background="#A7F179"
         android:layout_marginLeft="230dp"

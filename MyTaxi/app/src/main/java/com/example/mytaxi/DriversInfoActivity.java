@@ -11,11 +11,12 @@ import android.widget.EditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import com.yandex.mapkit.geometry.Point;
 import java.util.HashMap;
 
 public class DriversInfoActivity extends AppCompatActivity {
 
-    EditText surnameET, nameET, patrET, loginET, numberET, carBrandET, colorET, statusET, curLocationET;
+    EditText surnameET, nameET, patrET, loginET, numberET, carBrandET, colorET, statusET, curLatitudeET, curLongitudeET;
     Button saveButton, toTheMapButton;
 
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
@@ -34,9 +35,11 @@ public class DriversInfoActivity extends AppCompatActivity {
         carBrandET = (EditText) findViewById(R.id.carBrandET);
         colorET = (EditText) findViewById(R.id.colorET);
         statusET = (EditText) findViewById(R.id.statusET);
-        curLocationET = (EditText) findViewById(R.id.currentLocationET);
+        curLatitudeET = (EditText)findViewById(R.id.currentLocationLatitudeET);
+        curLongitudeET = (EditText)findViewById(R.id.currentLocationLongitudeET);
         saveButton = (Button) findViewById(R.id.saveInfoButton);
         toTheMapButton = (Button) findViewById(R.id.goToTheMapButton);
+
 
         toTheMapButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +62,11 @@ public class DriversInfoActivity extends AppCompatActivity {
                 String carBrand = carBrandET.getText().toString();
                 String color = colorET.getText().toString();
                 String status = statusET.getText().toString();
-                String curLocation = curLocationET.getText().toString();
-                DriverData driverData = new DriverData(surname, name, patr, login, number, carBrand, color, status, curLocation);
+                Double latitude = Double.parseDouble(curLatitudeET.getText().toString());
+                Double longitude = Double.parseDouble(curLongitudeET.getText().toString());
+                DriverData driverData = new DriverData(
+                        surname, name, patr, login, number, carBrand, color, status,
+                        new Point(latitude, longitude));
                 saveData(driverData);
             }
         });
@@ -77,7 +83,8 @@ public class DriversInfoActivity extends AppCompatActivity {
         userMap.put("carBrand", driverData.carBrand);
         userMap.put("color", driverData.color);
         userMap.put("status", driverData.status);
-        userMap.put("currentLocation", driverData.curLocation);
+        userMap.put("latitude", driverData.curLatitude.toString());
+        userMap.put("longitude", driverData.curLongitude.toString());
 
         root.push().setValue(userMap);
 

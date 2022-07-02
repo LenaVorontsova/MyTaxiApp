@@ -1,12 +1,15 @@
 package com.example.mytaxi;
 
+import com.yandex.mapkit.geometry.Point;
+
 public class DriverData {
-    String surname, name, patr, login, number, carBrand, color, status, curLocation;
+    String surname, name, patr, login, number, carBrand, color, status;
+    Double curLatitude, curLongitude;
 
     public DriverData() {
     }
 
-    public DriverData(String surname, String name, String patr, String login, String number, String carBrand, String color, String status, String curLocation) {
+    public DriverData(String surname, String name, String patr, String login, String number, String carBrand, String color, String status, Point point) {
         this.surname = surname;
         this.name = name;
         this.patr = patr;
@@ -15,6 +18,7 @@ public class DriverData {
         this.carBrand = carBrand;
         this.color = color;
         this.status = status;
-        this.curLocation = curLocation;
+        this.curLatitude = point.getLatitude();
+        this.curLongitude = point.getLongitude();
     }
 }
