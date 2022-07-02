@@ -39,8 +39,8 @@ import java.util.List;
 public class CustomersMapActivity extends AppCompatActivity implements UserLocationObjectListener, DrivingSession.DrivingRouteListener {
 
     private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 1;
-    private final Point ROUTE_START_LOCATION = new Point(56.852765, 53.206187);
-    private final Point ROUTE_END_LOCATION = new Point(56.845072, 53.213836);
+    private final Point ROUTE_START_LOCATION = new Point();
+    private final Point ROUTE_END_LOCATION = new Point();
     private MapView mapView;
     private MapObjectCollection mapObjects;
     private DrivingRouter drivingRouter;

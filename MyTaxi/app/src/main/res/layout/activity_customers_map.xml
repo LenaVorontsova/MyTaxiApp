@@ -9,6 +9,64 @@
     <com.yandex.mapkit.mapview.MapView
         android:id="@+id/mapview2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="580dp"
+        android:layout_marginStart="20dp"
+        android:text="Откуда"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        />
+    <TextView
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="580dp"
+        android:layout_marginStart="220dp"
+        android:text="Куда"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        />
+    <EditText
+        android:id="@+id/curLatitudeET"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="680dp"
+        android:layout_marginStart="20dp"
+        android:hint="Долгота"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+         />
+    <EditText
+        android:id="@+id/curLongitudeET"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="630dp"
+        android:layout_marginStart="20dp"
+        android:hint="Широта"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        />
+    <EditText
+        android:id="@+id/destinationLatitudeET"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="680dp"
+        android:layout_marginStart="220dp"
+        android:hint="Долгота"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        />
+    <EditText
+        android:id="@+id/destinationLongitudeET"
+        android:layout_width="170dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="630dp"
+        android:layout_marginStart="220dp"
+        android:hint="Широта"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        />
 
 </RelativeLayout>
