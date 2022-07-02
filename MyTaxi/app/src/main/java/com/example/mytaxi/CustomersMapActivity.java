@@ -4,33 +4,54 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import com.yandex.mapkit.MapKit;
 import com.yandex.mapkit.MapKitFactory;
+import com.yandex.mapkit.RequestPoint;
+import com.yandex.mapkit.RequestPointType;
+import com.yandex.mapkit.directions.DirectionsFactory;
+import com.yandex.mapkit.directions.driving.DrivingOptions;
+import com.yandex.mapkit.directions.driving.DrivingRoute;
+import com.yandex.mapkit.directions.driving.DrivingRouter;
+import com.yandex.mapkit.directions.driving.DrivingSession;
+import com.yandex.mapkit.directions.driving.VehicleOptions;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.layers.ObjectEvent;
 import com.yandex.mapkit.map.CameraPosition;
 import com.yandex.mapkit.map.CompositeIcon;
 import com.yandex.mapkit.map.IconStyle;
+import com.yandex.mapkit.map.MapObjectCollection;
 import com.yandex.mapkit.map.RotationType;
 import com.yandex.mapkit.mapview.MapView;
 import com.yandex.mapkit.user_location.UserLocationLayer;
 import com.yandex.mapkit.user_location.UserLocationObjectListener;
 import com.yandex.mapkit.user_location.UserLocationView;
+import com.yandex.runtime.Error;
 import com.yandex.runtime.image.ImageProvider;
+import com.yandex.runtime.network.NetworkError;
+import com.yandex.runtime.network.RemoteError;
+import java.util.ArrayList;
+import java.util.List;
 
-public class CustomersMapActivity extends AppCompatActivity implements UserLocationObjectListener {
+public class CustomersMapActivity extends AppCompatActivity implements UserLocationObjectListener, DrivingSession.DrivingRouteListener {
 
     private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 1;
+    private final Point ROUTE_START_LOCATION = new Point(56.852765, 53.206187);
+    private final Point ROUTE_END_LOCATION = new Point(56.845072, 53.213836);
     private MapView mapView;
+    private MapObjectCollection mapObjects;
+    private DrivingRouter drivingRouter;
+    private DrivingSession drivingSession;
     private UserLocationLayer userLocationLayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MapKitFactory.setApiKey("68f94b44-d62b-4e49-b77a-95e18f13d4bd");
-        MapKitFactory.initialize(CustomersMapActivity.this);
+        MapKitFactory.initialize(this);
+        DirectionsFactory.initialize(this);
         setContentView(R.layout.activity_customers_map);
         super.onCreate(savedInstanceState);
         initMap();
@@ -58,6 +79,26 @@ public class CustomersMapActivity extends AppCompatActivity implements UserLocat
         userLocationLayer.setHeadingEnabled(true);
 
         userLocationLayer.setObjectListener(this);
+
+        drivingRouter = DirectionsFactory.getInstance().createDrivingRouter();
+        mapObjects = mapView.getMap().getMapObjects().addCollection();
+
+        submitRequest();
+    }
+
+    private void submitRequest() {
+        DrivingOptions drivingOptions = new DrivingOptions();
+        VehicleOptions vehicleOptions = new VehicleOptions();
+        ArrayList<RequestPoint> requestPoints = new ArrayList<>();
+        requestPoints.add(new RequestPoint(
+                ROUTE_START_LOCATION,
+                RequestPointType.WAYPOINT,
+                null));
+        requestPoints.add(new RequestPoint(
+                ROUTE_END_LOCATION,
+                RequestPointType.WAYPOINT,
+                null));
+        drivingSession = drivingRouter.requestRoutes(requestPoints, drivingOptions, vehicleOptions, this);
     }
 
     private void requestLocationPermission() {
@@ -119,6 +160,25 @@ public class CustomersMapActivity extends AppCompatActivity implements UserLocat
         );
 
         userLocationView.getAccuracyCircle().setFillColor(Color.BLUE & 0x99ffffff);
+    }
+
+    @Override
+    public void onDrivingRoutes(List<DrivingRoute> routes) {
+        for (DrivingRoute route : routes) {
+            mapObjects.addPolyline(route.getGeometry());
+        }
+    }
+
+    @Override
+    public void onDrivingRoutesError(Error error) {
+        String errorMessage = "Неизвестная ошибка";
+        if (error instanceof RemoteError) {
+            errorMessage = "Удаленная ошибка";
+        } else if (error instanceof NetworkError) {
+            errorMessage = "Ошибка сети";
+        }
+
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show();
     }
 
     @Override
