@@ -4,6 +4,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -18,6 +19,7 @@ import com.yandex.mapkit.directions.driving.DrivingRoute;
 import com.yandex.mapkit.directions.driving.DrivingRouter;
 import com.yandex.mapkit.directions.driving.DrivingSession;
 import com.yandex.mapkit.directions.driving.VehicleOptions;
+import com.yandex.mapkit.geometry.Geo;
 import com.yandex.mapkit.geometry.Point;
 import com.yandex.mapkit.layers.ObjectEvent;
 import com.yandex.mapkit.map.CameraPosition;
@@ -39,13 +41,14 @@ import java.util.List;
 public class CustomersMapActivity extends AppCompatActivity implements UserLocationObjectListener, DrivingSession.DrivingRouteListener {
 
     private static final int PERMISSIONS_REQUEST_FINE_LOCATION = 1;
-    private final Point ROUTE_START_LOCATION = new Point();
-    private final Point ROUTE_END_LOCATION = new Point();
+    private final Point ROUTE_START_LOCATION = new Point(56.852765, 53.206187);
+    private final Point ROUTE_END_LOCATION = new Point(56.845072, 53.213836);
     private MapView mapView;
     private MapObjectCollection mapObjects;
     private DrivingRouter drivingRouter;
     private DrivingSession drivingSession;
     private UserLocationLayer userLocationLayer;
+    private TextView priceText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,14 @@ public class CustomersMapActivity extends AppCompatActivity implements UserLocat
         setContentView(R.layout.activity_customers_map);
         super.onCreate(savedInstanceState);
         initMap();
+        priceCalculation();
+    }
+
+    private void priceCalculation() {
+        Double distance = (Geo.distance(ROUTE_START_LOCATION, ROUTE_END_LOCATION))/1000;
+        int price = (int)(distance*50);
+        priceText = (TextView) findViewById(R.id.priceTV);
+        priceText.setText("Предварительная стоимость поездки: " + price);
     }
 
     private void initMap() {
