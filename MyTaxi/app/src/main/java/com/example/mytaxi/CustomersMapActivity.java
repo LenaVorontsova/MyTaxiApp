@@ -4,11 +4,18 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.yandex.mapkit.MapKit;
 import com.yandex.mapkit.MapKitFactory;
 import com.yandex.mapkit.RequestPoint;
@@ -49,16 +56,37 @@ public class CustomersMapActivity extends AppCompatActivity implements UserLocat
     private DrivingSession drivingSession;
     private UserLocationLayer userLocationLayer;
     private TextView priceText;
+    private DatabaseReference mDatabase;
+    private boolean initial = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (initial) {
+            return;
+        }
         MapKitFactory.setApiKey("68f94b44-d62b-4e49-b77a-95e18f13d4bd");
         MapKitFactory.initialize(this);
         DirectionsFactory.initialize(this);
+        initial = true;
         setContentView(R.layout.activity_customers_map);
         super.onCreate(savedInstanceState);
         initMap();
+        findTheNearestDriver();
         priceCalculation();
+    }
+
+    private void findTheNearestDriver() {
+        mDatabase.child("Drivers").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("latitude", "Error getting data", task.getException());
+                }
+                else {
+                    Log.d("latitude", String.valueOf(task.getResult().getValue()));
+                }
+            }
+        });
     }
 
     private void priceCalculation() {
@@ -80,6 +108,8 @@ public class CustomersMapActivity extends AppCompatActivity implements UserLocat
                         0
                 )
         );
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         requestLocationPermission();
 

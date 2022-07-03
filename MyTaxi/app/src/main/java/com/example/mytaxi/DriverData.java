@@ -6,9 +6,6 @@ public class DriverData {
     String surname, name, patr, login, number, carBrand, color, status;
     Double curLatitude, curLongitude;
 
-    public DriverData() {
-    }
-
     public DriverData(String surname, String name, String patr, String login, String number, String carBrand, String color, String status, Point point) {
         this.surname = surname;
         this.name = name;

@@ -15,13 +15,13 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class CustomerRegLoginActivity extends AppCompatActivity {
 
-    TextView enterDriverTV, questionTV;
-    Button enterButton, regButton;
-    EditText emailET, passET;
+    private TextView enterDriverTV, questionTV;
+    private Button enterButton, regButton;
+    private EditText emailET, passET;
 
-    FirebaseAuth mAuth;
+    private FirebaseAuth mAuth;
 
-    ProgressDialog loadingDialog;
+    private ProgressDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -16,8 +16,8 @@ import java.util.HashMap;
 
 public class DriversInfoActivity extends AppCompatActivity {
 
-    EditText surnameET, nameET, patrET, loginET, numberET, carBrandET, colorET, statusET, curLatitudeET, curLongitudeET;
-    Button saveButton, toTheMapButton;
+    private EditText surnameET, nameET, patrET, loginET, numberET, carBrandET, colorET, statusET, curLatitudeET, curLongitudeET;
+    private Button saveButton, toTheMapButton;
 
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private DatabaseReference root = db.getReference().child("Drivers");

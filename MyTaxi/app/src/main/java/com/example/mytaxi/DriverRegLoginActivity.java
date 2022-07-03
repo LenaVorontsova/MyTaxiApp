@@ -13,12 +13,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class DriverRegLoginActivity extends AppCompatActivity {
 
-    TextView enterDriverTV, questionTV;
-    Button enterButton, regButton;
-    EditText emailET, passET;
+    private TextView enterDriverTV, questionTV;
+    private Button enterButton, regButton;
+    private EditText emailET, passET;
 
-    FirebaseAuth mAuth;
-    ProgressDialog loadingDialog;
+    private FirebaseAuth mAuth;
+    private ProgressDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +31,6 @@ public class DriverRegLoginActivity extends AppCompatActivity {
         regButton = (Button)findViewById(R.id.signUpDriverButton);
         emailET = (EditText) findViewById(R.id.driverEmail);
         passET = (EditText) findViewById(R.id.driverPassword);
-        emailET.setText("lena@gmail.com");
-        passET.setText("123456_");
 
         mAuth = FirebaseAuth.getInstance();
         loadingDialog = new ProgressDialog(this);
